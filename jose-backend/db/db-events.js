@@ -11,10 +11,22 @@ class dbEvents {
   }
 
   getEvents() {
-    return "sass";
+    return this.dao.run(`select * from events`);
   }
-  addEvent() {
-    const sql = "insert into events";
+  addEvent(data) {
+    let fronttext = data.frontText.replaceAll("'", "''");
+    // fronttext = fronttext.replaceAll('"', '""');
+
+    let content = data.content.replaceAll("'", "''");
+    //  content = content.replaceAll('"', '""');
+    const sql = `insert into events(fronttext, img, avtSrc,userName, content) values(
+                  '${fronttext}',
+                  '${data.img}',
+                  '${data.avtSrc}',
+                  '${data.userName}',
+                  '${content}')`;
+
+    return this.dao.run(sql);
   }
 }
 

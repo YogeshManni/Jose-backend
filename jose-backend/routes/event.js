@@ -13,15 +13,17 @@ function getDbo() {
 
 router.get("/", async function (req, res, next) {
   var events = await getDbo().getEvents();
-  console.log(events);
-  res.status(200).send("events");
+  res.status(200).send(events);
 });
 
 router.post("/addEvent", async function (req, res, next) {
   console.log(req.body);
-  //var events =  await getDbo().addEvent();
-  //console.log(events)
-  res.status(200).send("reached Events");
+  try {
+    let events = await getDbo().addEvent(req.body);
+    res.status(200).send(`event added to db`);
+  } catch (err) {
+    res.status(200).send(err.message);
+  }
 });
 
 module.exports = router;
