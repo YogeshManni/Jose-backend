@@ -7,6 +7,7 @@ var bodyParser = require("body-parser");
 var indexRouter = require("./routes/index");
 var eventsRouter = require("./routes/event");
 var userRouter = require("./routes/users");
+var postsRouter = require("./routes/posts");
 var cors = require("cors");
 var db = require("./db/index.js");
 var app = express();
@@ -24,6 +25,7 @@ app.use(cors());
 app.use("/", indexRouter);
 app.use("/event", eventsRouter);
 app.use("/users", userRouter);
+app.use("/posts", postsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
