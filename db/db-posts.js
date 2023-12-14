@@ -4,13 +4,21 @@ class dbPosts {
     this.createTable();
   }
 
-  createTable() {
+  async createTable() {
     const query = `
         create table if not exists posts(id serial primary key,
-        username text, email text,likes number, img text, caption text,
-        date timestamp)
+        username text, email text,likes int, img text, caption text,
+        date text)
         `;
-    this.dbo.run(query);
+    await this.dbo.run(query);
+  }
+
+  async addPost(data) {
+    data.img = data.img.replaceAll(":", "-");
+    const query = `insert into posts(username,email,likes, img, caption, date) values(
+        '${data.username}','${data.email}',
+        '${data.likes}','${data.img}','${data.caption}','${data.date}')`;
+    return await this.dbo.run(query);
   }
 }
 

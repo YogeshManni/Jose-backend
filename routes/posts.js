@@ -18,17 +18,19 @@ const storage = multer.diskStorage({
     cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + "-" + Date.now() + file.originalname);
+    let filename = req.body.name + file.originalname;
+    filename = filename.replaceAll(":", "-");
+    cb(null, filename);
   },
 });
 const upload = multer({ storage: storage });
 
 router.post("/addPost", async function (req, res, next) {
-  console.log(req.body);
   try {
     let result = await getDbo().addPost(req.body);
     res.status(200).send(`post added to db`);
   } catch (err) {
+    console.log(err);
     res.status(500).send(err.message);
   }
 });
@@ -37,7 +39,6 @@ router.post(
   "/uploadImage",
   upload.fields([{ name: "image-file", maxCount: 1 }]),
   async function (req, res) {
-    console.log(req.body);
     try {
       res.status(200).json({
         status: "success",
