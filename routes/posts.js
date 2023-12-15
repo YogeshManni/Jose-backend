@@ -28,10 +28,16 @@ const upload = multer({ storage: storage });
 router.post("/addPost", async function (req, res, next) {
   try {
     let result = await getDbo().addPost(req.body);
-    res.status(200).send(`post added to db`);
+    res.status(200).json({
+      status: "success",
+      message: "post added successfully!!",
+    });
   } catch (err) {
     console.log(err);
-    res.status(500).send(err.message);
+    res.status(500).json({
+      status: "failed",
+      message: err,
+    });
   }
 });
 
