@@ -57,4 +57,20 @@ router.post(
   }
 );
 
+router.post("/posts", async function (req, res) {
+  try {
+    const posts = await getDbo().getPosts(req.body.email);
+    posts.foreach((post) => {
+      post.img = new Blob();
+    });
+    res.status(200).json({
+      status: "success",
+      message: "File created successfully!!",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
+});
+
 module.exports = router;

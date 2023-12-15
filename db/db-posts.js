@@ -20,6 +20,11 @@ class dbPosts {
         '${data.likes}','${data.img}','${data.caption}','${data.date}')`;
     return await this.dbo.run(query);
   }
+
+  async getPosts(email) {
+    const query = `select * from posts where email='${email}'`;
+    return await this.dbo.run(query);
+  }
 }
 
 module.exports = dbPosts;
