@@ -57,18 +57,25 @@ router.post(
   }
 );
 
-router.post("/posts", async function (req, res) {
+router.post("/", async function (req, res) {
   try {
     const posts = await getDbo().getPosts(req.body.email);
-    posts.foreach((post) => {
-      post.img = new Blob();
-    });
     res.status(200).json({
+      posts: posts,
       status: "success",
       message: "File created successfully!!",
     });
   } catch (err) {
     console.log(err);
+    res.status(500).send(err.message);
+  }
+});
+
+router.post("/updateLikes", async function (req, res, next) {
+  try {
+    let result = await getDbo().updateLikes(req.body.id);
+    res.status(200).send(result);
+  } catch (err) {
     res.status(500).send(err.message);
   }
 });

@@ -25,6 +25,11 @@ class dbPosts {
     const query = `select * from posts where email='${email}'`;
     return await this.dbo.run(query);
   }
+
+  async updateLikes(postId) {
+    const query = `update posts set likes = likes + 1 where id='${postId}'`;
+    return await this.dbo.run(query);
+  }
 }
 
 module.exports = dbPosts;
