@@ -15,14 +15,21 @@ class dbPosts {
 
   async addPost(data) {
     data.img = data.img.replaceAll(":", "-");
+    const currentDateTime = new Date();
     const query = `insert into posts(username,email,likes, img, caption, date) values(
-        '${data.username}','${data.email}',
-        '${data.likes}','${data.img}','${data.caption}','${data.date}')`;
-    return await this.dbo.run(query);
+      $1,$2,$3,$4,$5,CURRENT_TIMESTAMP)`;
+
+    return await this.dbo.run(query, [
+      data.username,
+      data.email,
+      data.likes,
+      data.img,
+      data.caption,
+    ]);
   }
 
   async getPosts(email) {
-    const query = `select * from posts where email='${email}'`;
+    const query = `select * from posts where email='${email}' order by date desc`;
     return await this.dbo.run(query);
   }
 

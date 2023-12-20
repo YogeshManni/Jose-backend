@@ -3,14 +3,17 @@ module.exports = class appDb {
   constructor() {
     this.db = new pg.Client({
       user: "postgres",
-      database: "jose",
-      password: "postgres",
+      database: "jose-nic",
+      password: "cityDb",
       port: "5432",
       host: "localhost",
     });
     this.db.connect((err) => {
       if (!err) console.log("Successfully connected to db!");
-      else console.log("error occured connecting to db!");
+      else {
+        console.log("error occured connecting to db!");
+        console.log(err);
+      }
     });
   }
 
