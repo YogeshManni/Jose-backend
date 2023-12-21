@@ -29,7 +29,7 @@ class dbPosts {
   }
 
   async getPosts(email) {
-    const query = `select * from posts where email='${email}' order by date desc`;
+    const query = `select pt.*,count(cm.discussionid) totalcomments from posts pt left join comments cm on pt.id=cm.discussionid and cm.type='posts'  group by pt.id order by pt.date desc`;
     return await this.dbo.run(query);
   }
 
