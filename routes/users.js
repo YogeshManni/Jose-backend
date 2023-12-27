@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var dbEvents = require("../db/db-users");
 var bcrypt = require("bcrypt");
+var fs = require("fs");
 const multer = require("multer");
 
 let _dbo = null;
@@ -16,6 +17,8 @@ function getDbo() {
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const uploadPath = "public/profiles";
+    if (!fs.existsSync(uploadPath))
+      fs.mkdirSync(uploadPath, { recursive: true });
     cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
@@ -31,6 +34,7 @@ router.post(
   upload.fields([{ name: "image-file", maxCount: 1 }]),
   async function (req, res) {
     try {
+      console.log("file uploaded");
       res.status(200).json({
         status: "success",
         message: "File created successfully!!",

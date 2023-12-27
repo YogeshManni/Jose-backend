@@ -3,8 +3,8 @@ module.exports = class appDb {
   constructor() {
     this.db = new pg.Client({
       user: "postgres",
-      database: "jose-nic",
-      password: "cityDb",
+      database: "jose",
+      password: "postgres",
       port: "5432",
       host: "localhost",
     });

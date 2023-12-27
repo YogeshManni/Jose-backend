@@ -8,13 +8,14 @@ class dbUsers {
     let sql = `
         BEGIN;
         
-        create table if not exists users(id serial primary key, username text, datejoined text, img text, phoneno text, email text, fullname text, password text);
+        create table if not exists users(id serial primary key, username text, datejoined timestamp, img text, phoneno text, email text, fullname text, password text);
         
         COMMIT;`;
     this.dao.run(sql);
   };
 
   addUser(data) {
+    data.profilepic = data.profilepic.replaceAll(":", "-");
     const sql = `insert into users(username, datejoined, img, phoneno, email, fullname, password) values(
       $1,CURRENT_TIMESTAMP,$2,$3,$4,$5,$6
     )`;

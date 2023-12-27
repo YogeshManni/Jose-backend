@@ -8,7 +8,7 @@ class dbPosts {
     const query = `
         create table if not exists posts(id serial primary key,
         username text, email text,likes int, img text, caption text,
-        date text)
+        date timestamp, liked_users text[], type text)
         `;
     await this.dbo.run(query);
   }
@@ -16,8 +16,8 @@ class dbPosts {
   async addPost(data) {
     data.img = data.img.replaceAll(":", "-");
     const currentDateTime = new Date();
-    const query = `insert into posts(username,email,likes, img, caption, date) values(
-      $1,$2,$3,$4,$5,CURRENT_TIMESTAMP)`;
+    const query = `insert into posts(username,email,likes, img, caption, date, liked_users, type) values(
+      $1,$2,$3,$4,$5,CURRENT_TIMESTAMP,$6,$7)`;
 
     return await this.dbo.run(query, [
       data.username,
@@ -25,6 +25,8 @@ class dbPosts {
       data.likes,
       data.img,
       data.caption,
+      data.liked_users,
+      data.type,
     ]);
   }
 
@@ -33,8 +35,11 @@ class dbPosts {
     return await this.dbo.run(query);
   }
 
-  async updateLikes(postId) {
-    const query = `update posts set likes = likes + 1 where id='${postId}'`;
+  async updateLikes(data) {
+    const query =
+      data.type === "rem"
+        ? `update posts set likes = likes - 1,liked_users = array_remove(liked_users, '${data.username}') where id='${data.id}'`
+        : `update posts set likes = likes + 1,liked_users = liked_users || ARRAY['${data.username}'] where id='${data.id}'`;
     return await this.dbo.run(query);
   }
 }
