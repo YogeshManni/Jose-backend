@@ -31,7 +31,7 @@ class dbPosts {
   }
 
   async getPosts(email) {
-    const query = `select pt.*,count(cm.discussionid) totalcomments from posts pt left join comments cm on pt.id=cm.discussionid and cm.type='posts'  group by pt.id order by pt.date desc`;
+    const query = `select pt.*,count(cm.discussionid) totalcomments,us.img profilepic from posts pt left join comments cm on pt.id=cm.discussionid and cm.type='posts' left join users us on pt.username = us.username group by pt.id, us.img order by pt.date desc`;
     return await this.dbo.run(query);
   }
 

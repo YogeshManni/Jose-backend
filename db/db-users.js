@@ -38,6 +38,15 @@ class dbUsers {
       data.username,
     ]);
   }
+
+  updateUser(userdata) {
+    const data = userdata.data.user;
+    userdata.filename = userdata.filename.replaceAll(":", "-");
+    return this.dao.run(
+      `update users set img=$1,phoneno=$2, fullname=$3 returning *`,
+      [userdata.filename, data.phoneno, data.fullname]
+    );
+  }
 }
 
 module.exports = dbUsers;
