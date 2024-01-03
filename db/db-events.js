@@ -8,7 +8,7 @@ class dbEvents {
     let sql = `
     BEGIN;
     create table if not exists events(id serial primary key, fronttext text, img text, avtSrc text,  
-            userName text, content text, likes int, views int, date text);
+            userName text, content text, likes int, views int, date timestamp);
      create table if not exists discussions(id serial primary key,isotime text, username text ,name text, avatar text,date text, content text,  
       likes int);
 
@@ -22,7 +22,7 @@ class dbEvents {
     //return this.dao.run(`select * from events order by date desc`);
     return this.dao
       .run(`select ev.*,count(cm.discussionid) totalcomments from events ev 
-    left  join comments cm on ev.id = cm.discussionid and cm.type like '%event%' group by ev.id`);
+    left  join comments cm on ev.id = cm.discussionid and cm.type like '%event%'  group by ev.id  order by date desc`);
   }
   addEvent(data) {
     let fronttext = data.frontText.replaceAll("'", "''");
@@ -38,7 +38,7 @@ class dbEvents {
                   '${content}',
                   '${0}',
                   '${0}',
-                  '${data.date}')`;
+                  CURRENT_TIMESTAMP)`;
 
     return this.dao.run(sql);
   }
