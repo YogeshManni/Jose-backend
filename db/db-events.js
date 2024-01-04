@@ -12,7 +12,7 @@ class dbEvents {
      create table if not exists discussions(id serial primary key,isotime text, username text ,name text, avatar text,date text, content text,  
       likes int);
 
-      create table if not exists comments(id serial primary key, discussionid int, username text, comment text, date text, type text);
+      create table if not exists comments(id serial primary key, discussionid int, username text, comment text, date timestamp, type text);
     
       COMMIT;`;
     this.dao.run(sql);
@@ -71,7 +71,7 @@ class dbEvents {
 
   getComments(discId, type) {
     return this.dao.run(
-      `select * from comments where discussionid=${discId} and type like '%${type}%'`
+      `select * from comments where discussionid=${discId} and type like '%${type}%' order by date desc`
     );
   }
 
