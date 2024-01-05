@@ -92,6 +92,15 @@ class dbEvents {
       `update events set views=${data.views} where id=${data.id}`
     );
   }
+
+  updateEvent(data) {
+    let fronttext = data.frontText.replaceAll("'", "''");
+    let content = data.content.replaceAll("'", "''");
+    return this.dao.run(
+      `update events set fronttext=$1, img=$2, content=$3, date=CURRENT_TIMESTAMP where id=$4`,
+      [fronttext, data.img, content, data.id]
+    );
+  }
 }
 
 module.exports = dbEvents;

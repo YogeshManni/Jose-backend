@@ -26,6 +26,16 @@ router.post("/addEvent", async function (req, res, next) {
   }
 });
 
+router.post("/updateEvent", async function (req, res, next) {
+  console.log(req.body);
+  try {
+    let events = await getDbo().updateEvent(req.body);
+    res.status(200).send(`event updated in db`);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 router.post("/discussion/addDiscussions", async function (req, res, next) {
   console.log(req.body);
   try {
