@@ -10,6 +10,8 @@ class dbUsers {
         
         create table if not exists users(id serial primary key, username text, datejoined timestamp, img text, phoneno text, email text, fullname text, password text);
         
+        create table if not exists comments(id serial primary key, discussionid int, username text, comment text, date timestamp, type text);
+        
         COMMIT;`;
     this.dao.run(sql);
   };

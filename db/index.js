@@ -2,11 +2,17 @@ var pg = require("pg");
 module.exports = class appDb {
   constructor() {
     this.db = new pg.Client({
-      user: "postgres",
+      user: "btpzjacj",
+      database: "btpzjacj",
+      password: "cPQEkHAETDEseQhvYAH_IAYAVGTTZMGQ",
+      port: "5432",
+      host: "mahmud.db.elephantsql.com",
+
+      /* user: "postgres",
       database: "jose",
       password: "postgres",
       port: "5432",
-      host: "localhost",
+      host: "localhost", */
     });
     this.db.connect((err) => {
       if (!err) console.log("Successfully connected to db!");
