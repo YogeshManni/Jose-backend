@@ -1,14 +1,15 @@
 var pg = require("pg");
-var env = require("../env");
+const dotenv = require("dotenv");
+dotenv.config();
 
 module.exports = class appDb {
   constructor() {
     this.db = new pg.Client({
-      user: env.DB_USER,
-      database: env.DB_DATABASE,
-      password: env.DB_PASSWORD,
-      port: env.DB_PORT,
-      host: env.DB_HOST,
+      user: process.env.DB_USER,
+      database: process.env.DB_DATABASE,
+      password: process.env.DB_PASSWORD,
+      port: process.env.DB_PORT,
+      host: process.env.DB_HOST,
     });
     this.db.connect((err) => {
       if (!err) console.log("Successfully connected to db!");
