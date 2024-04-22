@@ -11,7 +11,7 @@ class dbUsers {
         create table if not exists users(id serial primary key, username text, datejoined timestamp, img text, phoneno text, email text, fullname text, password text);
         
         create table if not exists comments(id serial primary key, discussionid int, username text, comment text, date timestamp, type text);
-        
+
         COMMIT;`;
     this.dao.run(sql);
   };
@@ -45,8 +45,8 @@ class dbUsers {
     const data = userdata.data.user;
     userdata.filename = userdata.filename.replaceAll(":", "-");
     return this.dao.run(
-      `update users set img=$1,phoneno=$2, fullname=$3 returning *`,
-      [userdata.filename, data.phoneno, data.fullname]
+      `update users set img=$1,phoneno=$2, fullname=$3 where username = $4 returning *`,
+      [userdata.filename, data.phoneno, data.fullname, data.username]
     );
   }
 }
